@@ -81,8 +81,13 @@ class Player {
         else if (movement == Movements.JUMP_LEFT) {
             moveLeft();
         }
-        y -= vY;
-        vY -= gravity;
+        if(abs(vY) > abs(200 - y) && vY < 0) { //if the movement will take it below ground, just set y to ground
+            y = 200;
+        }
+        else { // otherwise move it normally
+            y -= vY;
+            vY -= gravity;
+        }
     }
 
     void endJump() {
@@ -94,7 +99,6 @@ class Player {
             movement = Movements.LEFT_IDLE;
             currentAnimation = idleLeft;
         }
-        y = 200;
     }
 
     float getX() {
