@@ -3,10 +3,13 @@ enum Movements {
     LEFT,
     RIGHT,
     LEFT_IDLE,
-    RIGHT_IDLE
+    RIGHT_IDLE,
+    JUMP_LEFT,
+    JUMP_RIGHT
 }
 boolean aPressed = false;
 boolean dPressed = false;
+boolean jumping = false;
 Background front_bg, mid_bg, back_bg;
 float cameraX = 0;
 
@@ -23,14 +26,19 @@ void draw() {
   back_bg.display();
   mid_bg.display();
   front_bg.display();
-  if (!aPressed && !dPressed) {
-    player.stop();
+  if (!jumping) {
+    if (!aPressed && !dPressed) {
+      player.stop();
+    }
+    else if (aPressed) {
+      player.goLeft();  
+    }
+    else if (dPressed) {
+      player.goRight();
+    }
   }
-  else if (aPressed) {
-    player.moveLeft();  
-  }
-  else if (dPressed) {
-    player.moveRight();
+  else {
+    player.continueJump();
   }
   player.display();
 }
@@ -39,8 +47,14 @@ void keyPressed() {
   if (key == 'a') {
       aPressed = true;
   }
-  else if (key == 'd') {
+  if (key == 'd') {
       dPressed = true;
+  }
+  if (key == ' ') {
+    if (!jumping) {
+      jumping = true;
+      player.startJump();
+    }
   }
 }
 
@@ -48,7 +62,7 @@ void keyReleased() {
   if (key == 'a') {
     aPressed = false;
   }
-  else if (key == 'd') {
+  if (key == 'd') {
     dPressed = false;
   }
 }

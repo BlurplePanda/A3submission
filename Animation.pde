@@ -51,9 +51,23 @@ class Animation{
   void updateSprite(){
     int currentTime = millis();
     if (currentTime - lastChangeTime > currentDuration) {
+      if (loopAnim) {
         currentFrame = (currentFrame+1) % imageCount;
         currentDuration = durations[currentFrame];
         lastChangeTime = currentTime;
+      }
+      else {
+        if (currentFrame < imageCount-1) {
+        currentFrame++;
+        currentDuration = durations[currentFrame];
+        lastChangeTime = currentTime;
+        }
+        else {
+          jumping = false;
+          player.endJump();
+          currentFrame = 0;
+        }
+      }
     }
   }
 
