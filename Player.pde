@@ -1,11 +1,12 @@
 class Player {
+    // animations
+    Animation idleRight = new Animation("character/Idle", true);
+    Animation idleLeft = new Animation("character/Idle_l", true);
+    Animation runRight = new Animation("character/Run", true);
+    Animation runLeft = new Animation("character/Run_l", true);
+    Animation jumpRight = new Animation("character/Jump", false);
+    Animation jumpLeft = new Animation("character/Jump_l", false);
     
-    Animation idleRight = new Animation(loadJSONObject("character/Idle.json"), true, "character/Idle.png");
-    Animation idleLeft = new Animation(loadJSONObject("character/Idle_l.json"), true, "character/Idle_l.png");
-    Animation runRight = new Animation(loadJSONObject("character/Run.json"), true, "character/Run.png");
-    Animation runLeft = new Animation(loadJSONObject("character/Run_l.json"), true, "character/Run_l.png");
-    Animation jumpRight = new Animation(loadJSONObject("character/Jump.json"), false, "character/Jump.png");
-    Animation jumpLeft = new Animation(loadJSONObject("character/Jump_l.json"), false, "character/Jump_l.png");
     Animation currentAnimation = idleRight;
     Movements movement = Movements.RIGHT_IDLE;
     float x;
@@ -81,7 +82,8 @@ class Player {
         else if (movement == Movements.JUMP_LEFT) {
             moveLeft();
         }
-        if(abs(vY) > abs(200 - y) && vY < 0) { //if the movement will take it below ground, just set y to ground
+        if(abs(vY) > abs(200 - y) && vY < 0) {
+            //if the movement will take it below ground, just set y to ground
             y = 200;
         }
         else { // otherwise move it normally

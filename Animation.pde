@@ -10,16 +10,16 @@ class Animation{
 
   /**
    * Constructor for the Animation class
-   * @param animObject the JSONObject for your sprites.json, can be passed through via loadJSONObject(name.json)
+   * @param spriteLink string of relative path to file, without file extension (eg "character/idle" for "character/idle.png")
    * @param loopAnim boolean for whether or not your animation loops, helpful under some circumstances but up to you to implement
-   * @param spriteSheetLink string for the image link for your spritesheet (e.g "img/sprite.png") can be replaced with a PImage but up to you
    * I recommend reading the processing documentation for any part that confuses you
    */
-  Animation(JSONObject animObject, boolean loopAnim, String spriteSheetLink){
+  Animation(String spriteLink, boolean loopAnim){
+    JSONObject animObject = loadJSONObject(spriteLink+".json");
     JSONArray frames = animObject.getJSONArray("frames"); //a JSONArray object which contains frame information for each part in the animObject JSON
     this.loopAnim = loopAnim;
     imageCount = frames.size();
-    spriteSheet = loadImage(spriteSheetLink);             //loads the spriteSheet image and assigns it to a field
+    spriteSheet = loadImage(spriteLink+".png");             //loads the spriteSheet image and assigns it to a field
     currentFrame = 0;                                     //resets the current frame
     makeImageArray(frames);                               //calls the makeImageArray method to generate the array of Images
     currentDuration = durations[0];
