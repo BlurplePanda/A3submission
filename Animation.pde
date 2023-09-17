@@ -63,4 +63,8 @@ class Animation{
   void display(float x, float y){
     image(images[currentFrame], x, y);
   }
+
+  int getWidth() {
+    return images[currentFrame].width;
+  }
 }

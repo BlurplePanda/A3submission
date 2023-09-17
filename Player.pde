@@ -6,9 +6,9 @@ class Player {
     Animation runLeft = new Animation(loadJSONObject("character/Run_l.json"), true, "character/Run_l.png");
     Animation currentAnimation = idleRight;
     Movements movement = Movements.RIGHT_IDLE;
-    float x = 50;
+    float x;
     float vX = 5;
-    float y = 200;
+    float y;
 
     Player(float x, float y) {
         this.x = x;
@@ -22,13 +22,25 @@ class Player {
     void moveLeft() {
         movement = Movements.LEFT;
         currentAnimation = runLeft;
-        x -= vX;
+        
+        if (x <= 0.2*width) {
+            cameraX += vX;
+        }
+        else {
+            x -= vX;
+        }
     }
 
     void moveRight() {
         movement = Movements.RIGHT;
         currentAnimation = runRight;
-        x += vX;
+
+        if (x+runRight.getWidth() >= 0.8*width) {
+            cameraX -= vX;
+        }
+        else {
+            x += vX;
+        }
     }
 
     void stop() {
@@ -47,6 +59,9 @@ class Player {
     }
     float getY() {
         return y;
+    }
+    float getVX() {
+        return vX;
     }
 
     void display() {
