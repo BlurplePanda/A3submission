@@ -1,13 +1,12 @@
 class Player {
     // animations
-    Animation idleRight = new Animation("character/Idle", true);
-    Animation idleLeft = new Animation("character/Idle_l", true);
-    Animation runRight = new Animation("character/Run", true);
-    Animation runLeft = new Animation("character/Run_l", true);
-    Animation jumpRight = new Animation("character/Jump", false);
-    Animation jumpLeft = new Animation("character/Jump_l", false);
+    Animation idle = new Animation("character/Idle", true);
+    Animation run = new Animation("character/Run", true);
+    Animation jump = new Animation("character/Jump", false);
     
-    Animation currentAnimation = idleRight;
+    boolean facingLeft = false;
+    
+    Animation currentAnimation = idle;
     Movements movement = Movements.RIGHT_IDLE;
     float x;
     float vX = 5;
@@ -28,12 +27,14 @@ class Player {
     void moveLeft() {
         if (jumping) {
             movement = Movements.JUMP_LEFT;
-            currentAnimation = jumpLeft;
+            currentAnimation = jump;
+            facingLeft = true;
             continueJump();
         }
         else {
             movement = Movements.LEFT;
-            currentAnimation = runLeft;
+            currentAnimation = run;
+            facingLeft = true;
         }
         if (x <= 0.2*width) {
             cameraX += vX;
@@ -46,14 +47,16 @@ class Player {
     void moveRight() {
         if (jumping) {
             movement = Movements.JUMP_RIGHT;
-            currentAnimation = jumpRight;
+            currentAnimation = jump;
+            facingLeft = false;
             continueJump();
         }
         else {
             movement = Movements.RIGHT;
-            currentAnimation = runRight;
+            currentAnimation = run;
+            facingLeft = false;
         }
-        if (x+runRight.getWidth() >= 0.8*width) {
+        if (x+run.getWidth() >= 0.8*width) {
             cameraX -= vX;
         }
         else {
@@ -65,11 +68,13 @@ class Player {
         if (!jumping) {
             if (movement == Movements.RIGHT) {
                 movement = Movements.RIGHT_IDLE;
-                currentAnimation = idleRight;
+                currentAnimation = idle;
+                facingLeft = false;
             }
             else if (movement == Movements.LEFT) {
                 movement = Movements.LEFT_IDLE;
-                currentAnimation = idleLeft;
+                currentAnimation = idle;
+                facingLeft = true;
             }
         }
         else { continueJump(); }
@@ -78,11 +83,13 @@ class Player {
     void startJump() {
         if (movement == Movements.RIGHT || movement == Movements.RIGHT_IDLE) {
             movement = Movements.JUMP_RIGHT;
-            currentAnimation = jumpRight;
+            currentAnimation = jump;
+            facingLeft = false;
         }
         else if (movement == Movements.LEFT || movement == Movements.LEFT_IDLE) {
             movement = Movements.JUMP_LEFT;
-            currentAnimation = jumpLeft;
+            currentAnimation = jump;
+            facingLeft = true;
         }
         vY = 3;
     }
@@ -100,12 +107,14 @@ class Player {
             jumping = false;
             vY = 0;
             if (movement == Movements.JUMP_RIGHT) {
-            movement = Movements.RIGHT_IDLE;
-            currentAnimation = idleRight;
+                movement = Movements.RIGHT_IDLE;
+                currentAnimation = idle;
+                facingLeft = false;
             }
             else if (movement == Movements.JUMP_LEFT) {
                 movement = Movements.LEFT_IDLE;
-                currentAnimation = idleLeft;
+                currentAnimation = idle;
+                facingLeft = true;
             }
         }
     }
@@ -121,7 +130,7 @@ class Player {
     }
 
     void display() {
-        currentAnimation.display(x, y);
+        currentAnimation.display(x, y, facingLeft);
         currentAnimation.updateSprite();
     }
 }

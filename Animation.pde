@@ -74,8 +74,17 @@ class Animation{
   /**
    * display the current frame for this animation at x and y
    */
-  void display(float x, float y){
-    image(images[currentFrame], x, y);
+  void display(float x, float y, boolean faceLeft){
+    PImage img = images[currentFrame];
+    if (faceLeft) {
+      pushMatrix();
+      scale(-1.0, 1.0);
+      image(img, -(x+img.width), y);
+      popMatrix();
+    }
+    else {
+      image(img, x, y);
+    }
   }
 
   int getWidth() {
