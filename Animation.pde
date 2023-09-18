@@ -62,11 +62,6 @@ class Animation{
         currentDuration = durations[currentFrame];
         lastChangeTime = currentTime;
         }
-        else {
-          //jumping = false;
-          //player.endJump();
-          currentFrame = 0;
-        }
       }
     }
   }
@@ -89,5 +84,9 @@ class Animation{
 
   int getWidth() {
     return images[currentFrame].width;
+  }
+
+  void reset() {
+    currentFrame = 0;
   }
 }

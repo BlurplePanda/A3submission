@@ -2,7 +2,9 @@ class Player {
     // animations
     Animation idle = new Animation("character/Idle", true);
     Animation run = new Animation("character/Run", true);
-    Animation jump = new Animation("character/Jump", false);
+    Animation jumpStart = new Animation("character/Jump-Start", false);
+    Animation jumpMid = new Animation("character/Jump-Mid", false);
+    Animation jumpEnd = new Animation("character/Jump-End", false);
     
     boolean facingLeft = false;
     
@@ -12,6 +14,7 @@ class Player {
     float vX = 5;
     float y;
     float vY = 0;
+    float jumpVel = 5;
     float gravity = 0.1;
     float ground = 200;
 
@@ -28,12 +31,11 @@ class Player {
         facingLeft = true;
         if (jumping) {
             movement = Movements.JUMP_LEFT;
-            currentAnimation = jump;
             continueJump();
         }
         else {
             movement = Movements.LEFT;
-            currentAnimation = run;\
+            currentAnimation = run;
         }
         if (x <= 0.2*width) {
             cameraX += vX;
@@ -47,7 +49,6 @@ class Player {
         facingLeft = false;
         if (jumping) {
             movement = Movements.JUMP_RIGHT;
-            currentAnimation = jump;
             continueJump();
         }
         else {
@@ -81,15 +82,14 @@ class Player {
     void startJump() {
         if (movement == Movements.RIGHT || movement == Movements.RIGHT_IDLE) {
             movement = Movements.JUMP_RIGHT;
-            currentAnimation = jump;
             facingLeft = false;
         }
         else if (movement == Movements.LEFT || movement == Movements.LEFT_IDLE) {
             movement = Movements.JUMP_LEFT;
-            currentAnimation = jump;
             facingLeft = true;
         }
-        vY = 3;
+        currentAnimation = jumpStart;
+        vY = jumpVel;
     }
 
     void continueJump() {
@@ -114,6 +114,21 @@ class Player {
                 currentAnimation = idle;
                 facingLeft = true;
             }
+        }
+        else if (vY <= -jumpVel*0.5) {
+            currentAnimation = jumpEnd;
+            //finished with mid-jump anim, so reset it to the starting frame for next time
+            jumpMid.reset();
+        }
+        else if (vY >= jumpVel * 0.5) {
+            currentAnimation = jumpStart;
+            //finished with end-jump anim, so reset it
+            jumpEnd.reset();
+        }
+        else {
+            currentAnimation = jumpMid;
+            //finished with start-jump anim, so reset it
+            jumpStart.reset();
         }
     }
 
