@@ -76,12 +76,6 @@ class Player {
     }
 
     void continueJump() {
-        if (movement == Movements.JUMP_RIGHT) {
-            moveRight();
-        }
-        else if (movement == Movements.JUMP_LEFT) {
-            moveLeft();
-        }
         if(abs(vY) > abs(200 - y) && vY < 0) {
             //if the movement will take it below ground, just set y to ground
             y = 200;

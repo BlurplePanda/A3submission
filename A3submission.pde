@@ -14,7 +14,7 @@ Background front_bg, mid_bg, back_bg;
 float cameraX = 0;
 
 void setup() {
-  size(640, 360);
+  size(640, 360, P2D);
   frameRate(60);
   player = new Player(0, 200);
   front_bg = new Background("background/bg_layer_1.png", 1);
@@ -39,6 +39,12 @@ void draw() {
   }
   else {
     player.continueJump();
+    if (aPressed) {
+      player.moveLeft();  
+    }
+    if (dPressed) {
+      player.moveRight();
+    }
   }
   player.display();
 }
