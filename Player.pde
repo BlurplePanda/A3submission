@@ -25,16 +25,15 @@ class Player {
     }
 
     void moveLeft() {
+        facingLeft = true;
         if (jumping) {
             movement = Movements.JUMP_LEFT;
             currentAnimation = jump;
-            facingLeft = true;
             continueJump();
         }
         else {
             movement = Movements.LEFT;
-            currentAnimation = run;
-            facingLeft = true;
+            currentAnimation = run;\
         }
         if (x <= 0.2*width) {
             cameraX += vX;
@@ -45,16 +44,15 @@ class Player {
     }
 
     void moveRight() {
+        facingLeft = false;
         if (jumping) {
             movement = Movements.JUMP_RIGHT;
             currentAnimation = jump;
-            facingLeft = false;
             continueJump();
         }
         else {
             movement = Movements.RIGHT;
             currentAnimation = run;
-            facingLeft = false;
         }
         if (x+run.getWidth() >= 0.8*width) {
             cameraX -= vX;
