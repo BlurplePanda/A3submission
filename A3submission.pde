@@ -26,26 +26,16 @@ void draw() {
   back_bg.display();
   mid_bg.display();
   front_bg.display();
-  if (!jumping) {
-    if (!aPressed && !dPressed) {
-      player.stop();
-    }
-    else if (aPressed) {
-      player.goLeft();  
-    }
-    else if (dPressed) {
-      player.goRight();
-    }
+  if (aPressed) {
+    player.moveLeft();  
   }
-  else {
-    player.continueJump();
-    if (aPressed) {
-      player.moveLeft();  
-    }
-    if (dPressed) {
-      player.moveRight();
-    }
+  if (dPressed) {
+    player.moveRight();
   }
+  if (!aPressed && !dPressed) {
+    player.stop();
+  }
+
   player.display();
 }
 

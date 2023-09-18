@@ -14,6 +14,7 @@ class Player {
     float y;
     float vY = 0;
     float gravity = 0.1;
+    float ground = 200;
 
     Player(float x, float y) {
         this.x = x;
@@ -24,12 +25,16 @@ class Player {
         return movement;
     }
 
-    void goLeft() {
-        movement = Movements.LEFT;
-        currentAnimation = runLeft;
-        moveLeft();
-    }
     void moveLeft() {
+        if (jumping) {
+            movement = Movements.JUMP_LEFT;
+            currentAnimation = jumpLeft;
+            continueJump();
+        }
+        else {
+            movement = Movements.LEFT;
+            currentAnimation = runLeft;
+        }
         if (x <= 0.2*width) {
             cameraX += vX;
         }
@@ -38,12 +43,16 @@ class Player {
         }
     }
 
-    void goRight() {
-        movement = Movements.RIGHT;
-        currentAnimation = runRight;
-        moveRight();
-    }
     void moveRight() {
+        if (jumping) {
+            movement = Movements.JUMP_RIGHT;
+            currentAnimation = jumpRight;
+            continueJump();
+        }
+        else {
+            movement = Movements.RIGHT;
+            currentAnimation = runRight;
+        }
         if (x+runRight.getWidth() >= 0.8*width) {
             cameraX -= vX;
         }
@@ -53,14 +62,17 @@ class Player {
     }
 
     void stop() {
-        if (movement == Movements.RIGHT) {
-            movement = Movements.RIGHT_IDLE;
-            currentAnimation = idleRight;
+        if (!jumping) {
+            if (movement == Movements.RIGHT) {
+                movement = Movements.RIGHT_IDLE;
+                currentAnimation = idleRight;
+            }
+            else if (movement == Movements.LEFT) {
+                movement = Movements.LEFT_IDLE;
+                currentAnimation = idleLeft;
+            }
         }
-        else if (movement == Movements.LEFT) {
-            movement = Movements.LEFT_IDLE;
-            currentAnimation = idleLeft;
-        }
+        else { continueJump(); }
     }
 
     void startJump() {
@@ -76,24 +88,25 @@ class Player {
     }
 
     void continueJump() {
-        if(abs(vY) > abs(200 - y) && vY < 0) {
+        if(abs(vY) > abs(ground - y) && vY < 0) {
             //if the movement will take it below ground, just set y to ground
-            y = 200;
+            y = ground;
         }
         else { // otherwise move it normally
             y -= vY;
             vY -= gravity;
         }
-    }
-
-    void endJump() {
-        if (movement == Movements.JUMP_RIGHT) {
+        if (y >= ground) {
+            jumping = false;
+            vY = 0;
+            if (movement == Movements.JUMP_RIGHT) {
             movement = Movements.RIGHT_IDLE;
             currentAnimation = idleRight;
-        }
-        else if (movement == Movements.JUMP_LEFT) {
-            movement = Movements.LEFT_IDLE;
-            currentAnimation = idleLeft;
+            }
+            else if (movement == Movements.JUMP_LEFT) {
+                movement = Movements.LEFT_IDLE;
+                currentAnimation = idleLeft;
+            }
         }
     }
 

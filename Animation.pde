@@ -63,8 +63,8 @@ class Animation{
         lastChangeTime = currentTime;
         }
         else {
-          jumping = false;
-          player.endJump();
+          //jumping = false;
+          //player.endJump();
           currentFrame = 0;
         }
       }
