@@ -75,7 +75,7 @@
  "meta": {
   "app": "https://www.aseprite.org/",
   "version": "1.2.40-x64",
-  "image": "Jump.png",
+  "image": "Jump-Mid.png",
   "format": "RGBA8888",
   "size": { "w": 1280, "h": 160 },
   "scale": "1",
