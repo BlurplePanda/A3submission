@@ -14,7 +14,7 @@ class Player {
     float vX = 5;
     float y;
     float vY = 0;
-    float jumpVel = 5;
+    float jumpVel = 3;
     float gravity = 0.1;
     float ground = 200;
 
