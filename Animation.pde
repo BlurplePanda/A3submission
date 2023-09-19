@@ -45,7 +45,7 @@ class Animation{
             int duration = frameData.getInt("duration"); //gets duration of frame (in ms)
             
             //makes a PImage based on the cropped section of the spritesheet using the x,y,w and h
-            PImageframe = spriteSheet.get(x, y, w, h);
+            PImage frame = spriteSheet.get(x, y, w, h);
             
             images[i] = frame; //makes that index of the images array be that frame
             durations[i] = duration; //makes that index of the durations array be that duration
