@@ -29,7 +29,7 @@ class Animation{
     *Also makes an array of durations of each frame/image based on the info in the JSONArray
     *@param frames the JSONArray of information from sprites .json
     */
-    voidmakeImageArray(JSONArray frames) {
+    void makeImageArray(JSONArray frames) {
         //create arrays with the right size (the amount of frames)
         images = new PImage[imageCount]; 
         durations = new int[imageCount];
